@@ -1,5 +1,5 @@
-const BookEvent = () => {
+const BookEventPage = () => {
   return <div>Book an event</div>;
 };
 
-export default BookEvent;
+export default BookEventPage;

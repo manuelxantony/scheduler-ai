@@ -1,5 +1,11 @@
-const Availablity = () => {
-  return <div>Availablity calender</div>;
+import Availablity from '@/components/avilability';
+
+const AvailablityPage = () => {
+  return (
+    <div>
+      <Availablity />
+    </div>
+  );
 };
 
-export default Availablity;
+export default AvailablityPage;
