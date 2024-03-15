@@ -1,7 +1,7 @@
 'use client';
 
 import Select from 'react-select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ControllerRenderProps } from 'react-hook-form';
 
 import { TimeOptions } from '@/app/lib/definitions';

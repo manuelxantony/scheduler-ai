@@ -6,8 +6,7 @@ import { Availability } from '@/app/lib/definitions';
 import AvailabilityTimeSelector from '@/components/availability/availabilityTimeSelector';
 
 const AvailabilityDaySelector = () => {
-  const { control, register, setValue, getValues } =
-    useFormContext<Availability>();
+  const { control } = useFormContext<Availability>();
 
   const { fields, append, remove } = useFieldArray<Availability>({
     name: 'availability',
@@ -19,11 +18,8 @@ const AvailabilityDaySelector = () => {
       {fields.map((field, index) => {
         return (
           <div key={field.id}>
-            {/* day selector here */}
-
-            {field.day}
             <div>
-              <AvailabilityTimeSelector nestIndex={index} />
+              <AvailabilityTimeSelector nestIndex={index} day={field.day} />
             </div>
           </div>
         );
