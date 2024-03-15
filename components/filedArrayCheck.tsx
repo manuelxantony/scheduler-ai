@@ -14,14 +14,14 @@ const Total = ({ control }: { control: Control<FormValues> }) => {
     name: 'cart',
     control,
   });
-  // const total = formValues.reduce(
-  //   (acc, current) => acc + (current.price || 0) * (current.quantity || 0),
-  //   0
-  // );
-  // return <p>Total Amount: {total}</p>;
+  const total = formValues.reduce(
+    (acc, current) => acc + (current.price || 0) * (current.quantity || 0),
+    0
+  );
+  return <p>Total Amount: {total}</p>;
 };
 
-export default function App() {
+export default function App2() {
   const {
     register,
     control,

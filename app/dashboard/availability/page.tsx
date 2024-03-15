@@ -1,9 +1,9 @@
-import Availablity from '@/components/avilability';
+import AvailabilityForm from '@/components/availability/availabilityForm';
 
 const AvailablityPage = () => {
   return (
     <div>
-      <Availablity />
+      <AvailabilityForm />
     </div>
   );
 };

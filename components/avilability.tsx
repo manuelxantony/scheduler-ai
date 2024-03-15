@@ -1,42 +1,64 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import {
+  useForm,
+  useFieldArray,
+  FormProvider,
+  useFormContext,
+} from 'react-hook-form';
 
 import AvailabilitySelector from '@/components/availabilitySelector';
-import App from './filedArrayCheck';
-import App2 from './NestedfiledArrayCheck';
+
+// import AvailabilitySelector2 from './availabilitySelector2';
 
 enum WeekDay {
-  Sunday,
-  Monday,
-  Tuesday,
-  Wednesday,
-  Thursday,
-  Friday,
-  Saturday,
+  Sunday = 'Sunday',
+  Monday = 'Monday',
+  Tuesday = 'Tuesday',
+  Wednesday = 'Wednesday',
+  Thursday = 'Thursday',
+  Friday = 'Friday',
+  Saturday = 'Saturday',
 }
 
+type DateInputs = {
+  dates: {
+    weekDay: string;
+    startTime: string;
+    endTime: string;
+  }[];
+};
+
 const Availablity = () => {
+  const methods = useForm<DateInputs>({
+    defaultValues: {
+      dates: [{ weekDay: 'Sunday', startTime: '9.00 am', endTime: '7.00 pm' }],
+    },
+  });
+  const { register, handleSubmit, control } = methods;
+
+  const { fields, append, remove } = useFieldArray({
+    name: 'dates',
+    control,
+  });
+
+  const onSubmit = (data: any) => console.log(data);
+
   return (
-    <div className="w-full h-screen">
-      {/* <h3 className="font-bold">Availability</h3>
-      <span>Add your availabilities here</span>
-      <div>
-        <button className=" p-2 bg-black text-white">Add Availability</button>
-        // <AvailabilitySelector /> */}
-      <div className="bg-violet-200 mb-11">
-        <AvailabilitySelector weekDay="Sunday" />
-      </div>
-      <div className="bg-green-200">
-        <App />
-      </div>
-      <div className="mt-[50px]"></div>
-      <div className="bg-pink-200">
-        <App2 />
-      </div>
-      {/* </div> */}
-    </div>
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full h-screen">
+        <div className="bg-violet-200 mb-11">
+          {fields.map((field, index) => {
+            return <div key={field.id}></div>;
+          })}
+          <AvailabilitySelector weekDay={WeekDay.Sunday} />
+          /
+          <AvailabilitySelector weekDay={WeekDay.Monday} />
+        </div>
+        <button type="submit">submit</button>
+      </form>
+    </FormProvider>
   );
 };
 
