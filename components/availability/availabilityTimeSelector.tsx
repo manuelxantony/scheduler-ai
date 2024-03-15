@@ -1,8 +1,10 @@
 'use client';
 
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext, Controller } from 'react-hook-form';
 
 import { Availability } from '@/app/lib/definitions';
+import { defaultStartTime, defaultEndTime } from '@/app/lib/day';
+import TimeRangeSelector from './timeRangeSelector';
 
 const AvailabilityTimeSelector = ({ nestIndex }: { nestIndex: number }) => {
   const { control, register } = useFormContext<Availability>();
@@ -15,28 +17,33 @@ const AvailabilityTimeSelector = ({ nestIndex }: { nestIndex: number }) => {
     <div className="mb-6">
       {fields.map((field, index) => {
         return (
-          <div key={field.id}>
-            <input
+          <div key={field.id} className="flex flex-row">
+            {/* <input
               type="text"
               {...register(
-                `availability[${nestIndex}].timeRanges[${index}].startTime`
+                `availability[${nestIndex}].timeRanges[${index}].startTime.label`
               )}
               className="w-24 border border-2 border-green-200"
             />
             <input
               type="text"
               {...register(
-                `availability[${nestIndex}].timeRanges[${index}].endTime`
+                `availability[${nestIndex}].timeRanges[${index}].endTime.label`
               )}
               className="w-24 border border-2 border-pink-200"
+            /> */}
+            <Controller
+              name={`availability[${nestIndex}].timeRanges[${index}]`}
+              render={({ field }) => <TimeRangeSelector {...field} />}
             />
+
             {index == 0 ? (
               <button
                 type="button"
                 onClick={() =>
                   append({
-                    startTime: '10.00 am',
-                    endTime: '5.00 pm',
+                    startTime: defaultStartTime,
+                    endTime: defaultEndTime,
                   })
                 }
               >

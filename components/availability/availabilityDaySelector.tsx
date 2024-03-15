@@ -17,9 +17,11 @@ const AvailabilityDaySelector = () => {
   return (
     <div>
       {fields.map((field, index) => {
+        console.log(field);
         return (
           <div key={field.id}>
             {/* day selector here */}
+
             {field.day}
             <div>
               <AvailabilityTimeSelector nestIndex={index} />

@@ -3,40 +3,38 @@
 import { FormProvider, useForm } from 'react-hook-form';
 
 import AvailabilityDaySelector from '@/components/availability/availabilityDaySelector';
-
 import { Availability } from '@/app/lib/definitions';
-import TimeRangeSelector from './timeRangeSelector';
-import SelectTry from '../selecttry';
+import { defaultStartTime, defaultEndTime } from '@/app/lib/day';
 
 const defaultAvailability: Availability = {
   availability: [
     {
       day: 'Sunday',
-      timeRanges: [{ startTime: '10.00 am', endTime: '6.00 pm' }],
+      timeRanges: [{ startTime: defaultStartTime, endTime: defaultEndTime }],
     },
     {
       day: 'Monday',
-      timeRanges: [{ startTime: '10.00 am', endTime: '6.00 pm' }],
+      timeRanges: [{ startTime: defaultStartTime, endTime: defaultEndTime }],
     },
     {
       day: 'Tuesday',
-      timeRanges: [{ startTime: '10.00 am', endTime: '6.00 pm' }],
+      timeRanges: [{ startTime: defaultStartTime, endTime: defaultEndTime }],
     },
     {
       day: 'Wednesday',
-      timeRanges: [{ startTime: '10.00 am', endTime: '6.00 pm' }],
+      timeRanges: [{ startTime: defaultStartTime, endTime: defaultEndTime }],
     },
     {
       day: 'Thursday',
-      timeRanges: [{ startTime: '10.00 am', endTime: '6.00 pm' }],
+      timeRanges: [{ startTime: defaultStartTime, endTime: defaultEndTime }],
     },
     {
       day: 'Friday',
-      timeRanges: [{ startTime: '10.00 am', endTime: '6.00 pm' }],
+      timeRanges: [{ startTime: defaultStartTime, endTime: defaultEndTime }],
     },
     {
       day: 'Saturday',
-      timeRanges: [{ startTime: '10.00 am', endTime: '6.00 pm' }],
+      timeRanges: [{ startTime: defaultStartTime, endTime: defaultEndTime }],
     },
   ],
 };
@@ -64,7 +62,6 @@ const AvailabilityForm = () => {
         </form>
       </FormProvider>
       <div className="mt-8" />
-      <TimeRangeSelector />
     </>
   );
 };

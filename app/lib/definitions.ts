@@ -2,8 +2,8 @@ export type Availability = {
   availability: {
     day: string;
     timeRanges: {
-      startTime: string;
-      endTime: string;
+      startTime: TimeOptions;
+      endTime: TimeOptions;
     }[];
   }[];
 };

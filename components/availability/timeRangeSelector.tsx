@@ -1,7 +1,8 @@
 'use client';
 
 import Select from 'react-select';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { ControllerRenderProps } from 'react-hook-form';
 
 import { TimeOptions } from '@/app/lib/definitions';
 
@@ -11,7 +12,8 @@ import {
   defaultEndTime,
 } from '@/app/lib/day';
 
-const TimeRangeSelector = () => {
+// consider using useMemo for generateTimeOptions -> in case of performance issue
+const TimeRangeSelector = ({ value, onChange }: ControllerRenderProps) => {
   const [selectedOptionStart, setSelectedOptionStart] = useState<TimeOptions>({
     ...defaultStartTime,
   });
@@ -24,24 +26,24 @@ const TimeRangeSelector = () => {
   const [endOptions, setEndOptions] = useState(options);
 
   return (
-    <div className="w-96 mb-96 flex flex-row">
+    <div className="w-96 flex flex-row">
       {/* start time */}
       <Select
         defaultValue={selectedOptionStart}
         onChange={(option) => {
           if (option) {
             setSelectedOptionStart(option);
+            onChange({ ...value, startTime: option });
           }
         }}
         onMenuOpen={() => {
+          // should this be in a useEffect
+          // also consider using useMemo
           const filteredOptions = options.filter((option) => {
             return option.value < selectedOptionEnd.value;
           });
           setStartOptions(filteredOptions);
-          console.log(filteredOptions);
-          console.log(startOptions);
         }}
-        onMenuClose={() => {}}
         options={startOptions}
         components={{
           DropdownIndicator: () => null,
@@ -50,21 +52,22 @@ const TimeRangeSelector = () => {
       />
       {/* end time */}
       <Select
-        //   value={}
         defaultValue={selectedOptionEnd}
         onChange={(option) => {
           if (option) {
             setSelectedOptionEnd(option);
+            onChange({ ...value, endTime: option });
           }
         }}
         onMenuOpen={() => {
+          // should this be in a useEffect
+          // also consider using useMemo
           setEndOptions(
             options.filter((option) => {
               return option.value > selectedOptionStart.value;
             })
           );
         }}
-        onMenuClose={() => {}}
         options={endOptions}
         components={{
           DropdownIndicator: () => null,
