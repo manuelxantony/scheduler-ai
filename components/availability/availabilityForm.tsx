@@ -11,8 +11,7 @@ const AvailabilityForm = () => {
     defaultValues: defaultAvailability,
   });
 
-  const { control, register, handleSubmit, getValues, reset, setValue } =
-    methods;
+  const { handleSubmit } = methods;
 
   const onSubmit = handleSubmit((data) => console.log(data));
 

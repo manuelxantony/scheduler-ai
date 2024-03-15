@@ -15,22 +15,25 @@ const AvailabilityTimeSelector = ({
   day: string;
 }) => {
   const [isChecked, setIsChecked] = useState(true);
+  const [isFirstTimeChanged, setIsFirstTimeChanged] = useState(false);
   const { control } = useFormContext<Availability>();
   const { fields, remove, append } = useFieldArray<Availability>({
     control,
     name: `availability[${nestIndex}].timeRanges`,
   });
 
-  //   useEffect(() => {
-  //     if (!isChecked) {
-  //       remove();
-  //     } else {
-  //       append({
-  //         startTime: defaultStartTime,
-  //         endTime: defaultEndTime,
-  //       });
-  //     }
-  //   }, [isChecked]);
+  useEffect(() => {
+    if (isFirstTimeChanged) {
+      if (isChecked) {
+        append({
+          startTime: defaultStartTime,
+          endTime: defaultEndTime,
+        });
+      } else {
+        remove();
+      }
+    }
+  }, [isChecked]);
 
   return (
     <div className="mb-6">
@@ -39,15 +42,8 @@ const AvailabilityTimeSelector = ({
           type="checkbox"
           checked={isChecked}
           onChange={() => {
+            setIsFirstTimeChanged(true);
             setIsChecked(!isChecked);
-            if (!isChecked) {
-              remove();
-            } else {
-              append({
-                startTime: defaultStartTime,
-                endTime: defaultEndTime,
-              });
-            }
           }}
         />
         {day}
@@ -56,7 +52,7 @@ const AvailabilityTimeSelector = ({
         return (
           <div key={field.id} className="flex flex-row">
             {isChecked && (
-              <div>
+              <div className="flex flex-row">
                 <Controller
                   name={`availability[${nestIndex}].timeRanges[${index}]`}
                   render={({ field }) => <TimeRangeSelector {...field} />}

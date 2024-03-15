@@ -8,7 +8,7 @@ import AvailabilityTimeSelector from '@/components/availability/availabilityTime
 const AvailabilityDaySelector = () => {
   const { control } = useFormContext<Availability>();
 
-  const { fields, append, remove } = useFieldArray<Availability>({
+  const { fields } = useFieldArray<Availability>({
     name: 'availability',
     control,
   });
