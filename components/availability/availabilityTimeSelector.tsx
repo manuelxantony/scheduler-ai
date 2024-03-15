@@ -4,10 +4,10 @@ import { useFieldArray, useFormContext, Controller } from 'react-hook-form';
 
 import { Availability } from '@/app/lib/definitions';
 import { defaultStartTime, defaultEndTime } from '@/app/lib/day';
-import TimeRangeSelector from './timeRangeSelector';
+import TimeRangeSelector from '@/components/availability/timeRangeSelector';
 
 const AvailabilityTimeSelector = ({ nestIndex }: { nestIndex: number }) => {
-  const { control, register } = useFormContext<Availability>();
+  const { control } = useFormContext<Availability>();
   const { fields, remove, append } = useFieldArray<Availability>({
     control,
     name: `availability[${nestIndex}].timeRanges`,
@@ -18,20 +18,6 @@ const AvailabilityTimeSelector = ({ nestIndex }: { nestIndex: number }) => {
       {fields.map((field, index) => {
         return (
           <div key={field.id} className="flex flex-row">
-            {/* <input
-              type="text"
-              {...register(
-                `availability[${nestIndex}].timeRanges[${index}].startTime.label`
-              )}
-              className="w-24 border border-2 border-green-200"
-            />
-            <input
-              type="text"
-              {...register(
-                `availability[${nestIndex}].timeRanges[${index}].endTime.label`
-              )}
-              className="w-24 border border-2 border-pink-200"
-            /> */}
             <Controller
               name={`availability[${nestIndex}].timeRanges[${index}]`}
               render={({ field }) => <TimeRangeSelector {...field} />}

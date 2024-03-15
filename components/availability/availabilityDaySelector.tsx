@@ -13,11 +13,10 @@ const AvailabilityDaySelector = () => {
     name: 'availability',
     control,
   });
-  // console.log(fields);
+
   return (
     <div>
       {fields.map((field, index) => {
-        console.log(field);
         return (
           <div key={field.id}>
             {/* day selector here */}
