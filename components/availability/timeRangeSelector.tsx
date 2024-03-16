@@ -26,9 +26,10 @@ const TimeRangeSelector = ({ value, onChange }: ControllerRenderProps) => {
   const [endOptions, setEndOptions] = useState(options);
 
   return (
-    <div className="w-96 flex flex-row">
+    <div className="flex flex-row gap-3 justify-start items-center">
       {/* start time */}
       <Select
+        className="text-sm"
         defaultValue={selectedOptionStart}
         onChange={(option) => {
           if (option) {
@@ -50,8 +51,10 @@ const TimeRangeSelector = ({ value, onChange }: ControllerRenderProps) => {
           IndicatorSeparator: () => null,
         }}
       />
+      <span className="text-sm">-</span>
       {/* end time */}
       <Select
+        className="text-sm"
         defaultValue={selectedOptionEnd}
         onChange={(option) => {
           if (option) {

@@ -36,50 +36,56 @@ const AvailabilityTimeSelector = ({
   }, [isChecked]);
 
   return (
-    <div className="mb-6">
-      <label>
-        <input
-          type="checkbox"
-          checked={isChecked}
-          onChange={() => {
-            setIsFirstTimeChanged(true);
-            setIsChecked(!isChecked);
-          }}
-        />
-        {day}
-      </label>
-      {fields.map((field, index) => {
-        return (
-          <div key={field.id} className="flex flex-row">
-            {isChecked && (
-              <div className="flex flex-row">
-                <Controller
-                  name={`availability[${nestIndex}].timeRanges[${index}]`}
-                  render={({ field }) => <TimeRangeSelector {...field} />}
-                />
-
-                {index == 0 ? (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      append({
-                        startTime: defaultStartTime,
-                        endTime: defaultEndTime,
-                      })
-                    }
-                  >
-                    Add
-                  </button>
-                ) : (
-                  <button type="button" onClick={() => remove(index)}>
-                    Delete
-                  </button>
+    <div className="mb-2 flex flex-row">
+      <div className="w-[123px] mt-2">
+        <label className="text-sm">
+          <input
+            className="mr-3"
+            type="checkbox"
+            checked={isChecked}
+            onChange={() => {
+              setIsFirstTimeChanged(true);
+              setIsChecked(!isChecked);
+            }}
+          />
+          {day}
+        </label>
+      </div>
+      <div className="flex flex-row justify-start items-center min-h-[46px]">
+        <div>
+          {fields.map((field, index) => {
+            return (
+              <div key={field.id} className="my-1">
+                {isChecked && (
+                  <div className="flex flex-row justify-start items-center gap-5">
+                    <Controller
+                      name={`availability[${nestIndex}].timeRanges[${index}]`}
+                      render={({ field }) => <TimeRangeSelector {...field} />}
+                    />
+                    {index == 0 ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          append({
+                            startTime: defaultStartTime,
+                            endTime: defaultEndTime,
+                          })
+                        }
+                      >
+                        Add
+                      </button>
+                    ) : (
+                      <button type="button" onClick={() => remove(index)}>
+                        Delete
+                      </button>
+                    )}
+                  </div>
                 )}
               </div>
-            )}
-          </div>
-        );
-      })}
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
