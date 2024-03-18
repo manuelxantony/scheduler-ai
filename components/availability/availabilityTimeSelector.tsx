@@ -2,10 +2,14 @@
 
 import { useFieldArray, useFormContext, Controller } from 'react-hook-form';
 
+import { AddOutline, TrashBinOutline } from 'react-ionicons';
+
 import { Availability } from '@/app/lib/definitions';
 import { defaultStartTime, defaultEndTime } from '@/app/lib/day';
 import TimeRangeSelector from '@/components/availability/timeRangeSelector';
 import { useEffect, useState } from 'react';
+import TrashButton from '../button/trashbutton';
+import AddButton from '../button/addButton';
 
 const AvailabilityTimeSelector = ({
   nestIndex,
@@ -63,21 +67,20 @@ const AvailabilityTimeSelector = ({
                       render={({ field }) => <TimeRangeSelector {...field} />}
                     />
                     {index == 0 ? (
-                      <button
-                        type="button"
+                      <AddButton
                         onClick={() =>
                           append({
                             startTime: defaultStartTime,
                             endTime: defaultEndTime,
                           })
                         }
-                      >
-                        Add
-                      </button>
+                        tipText="Add time slotes"
+                      />
                     ) : (
-                      <button type="button" onClick={() => remove(index)}>
-                        Delete
-                      </button>
+                      <TrashButton
+                        onClick={() => remove(index)}
+                        tipText="Delete"
+                      />
                     )}
                   </div>
                 )}
