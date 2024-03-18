@@ -1,29 +1,33 @@
 'use client';
 
-import { useFieldArray, useFormContext, Controller } from 'react-hook-form';
-
-import { AddOutline, TrashBinOutline } from 'react-ionicons';
-
-import { Availability } from '@/app/lib/definitions';
-import { defaultStartTime, defaultEndTime } from '@/app/lib/day';
-import TimeRangeSelector from '@/components/availability/timeRangeSelector';
 import { useEffect, useState } from 'react';
-import TrashButton from '../button/trashbutton';
-import AddButton from '../button/addButton';
+import {
+  useFieldArray,
+  useFormContext,
+  FieldArrayWithId,
+} from 'react-hook-form';
+
+import { Availability, TimeOptions } from '@/app/lib/definitions';
+import { defaultStartTime, defaultEndTime } from '@/app/lib/day';
+import AvailabilitySelector from './avilabilitySelector';
+import dayjs from 'dayjs';
 
 const AvailabilityTimeSelector = ({
-  nestIndex,
+  nextIndex: nextIndex,
   day,
+  name,
 }: {
-  nestIndex: number;
+  nextIndex: number;
   day: string;
+  name: string;
 }) => {
   const [isChecked, setIsChecked] = useState(true);
   const [isFirstTimeChanged, setIsFirstTimeChanged] = useState(false);
-  const { control } = useFormContext<Availability>();
+  const { control, getValues } = useFormContext<Availability>();
   const { fields, remove, append } = useFieldArray<Availability>({
     control,
-    name: `availability[${nestIndex}].timeRanges`,
+    // name: `availability[${nextIndex}].timeRanges`,
+    name: name,
   });
 
   useEffect(() => {
@@ -38,6 +42,46 @@ const AvailabilityTimeSelector = ({
       }
     }
   }, [isChecked]);
+
+  const onClickAdd = () => {
+    const endRanges = getValues(`${name}.${fields.length - 1}`);
+    const startRanges = getValues(`${name}.0`);
+
+    // generateSlotRanges(startRanges, endRanges);
+    append({
+      startTime: defaultStartTime,
+      endTime: defaultEndTime,
+    });
+  };
+
+  // will implement in future
+  // this will used for appending and prepending times from the time ranges selected
+  // type is FieldArrayWithId for startRanges and endRanges
+  const generateSlotRanges = (startRanges: any, endRanges: any) => {
+    // check if
+    // // startRanges.startTime == start of day and
+    // // endRanges.endTIme == end of the day
+    // then
+    // // dont append anything also amy be add a message that slots are full
+    // next
+    // check if
+    // not endRanges.end is not end of day
+    // then
+    // // append start as endRanges.start = startRanges.end
+    // // and end as endRangs.end + 1 hour if endRangs.end + 1 hxour is in same day else append eod
+    // const val = (startRanges as unknown as TimeRanges).startTime;
+    // console.log(val);
+    // const timezoneStartRange = dayjs((startRanges as TimeRanges).start).utc(); // as unknown
+    // console.log(timezoneStartRange, '-=--=-=-=-==-=343434==-=-=][][][]');
+    // const timeEndRange = dayjs((endRanges as TimeRanges).end)
+    //   .utc()
+    //   .format('h:mma'); // as unknown
+    // console.log(timeEndRange);
+  };
+
+  const onClickRemove = (index: number) => {
+    remove(index);
+  };
 
   return (
     <div className="mb-2 flex flex-row">
@@ -61,28 +105,14 @@ const AvailabilityTimeSelector = ({
             return (
               <div key={field.id} className="my-1">
                 {isChecked && (
-                  <div className="flex flex-row justify-start items-center gap-5">
-                    <Controller
-                      name={`availability[${nestIndex}].timeRanges[${index}]`}
-                      render={({ field }) => <TimeRangeSelector {...field} />}
-                    />
-                    {index == 0 ? (
-                      <AddButton
-                        onClick={() =>
-                          append({
-                            startTime: defaultStartTime,
-                            endTime: defaultEndTime,
-                          })
-                        }
-                        tipText="Add time slotes"
-                      />
-                    ) : (
-                      <TrashButton
-                        onClick={() => remove(index)}
-                        tipText="Delete"
-                      />
-                    )}
-                  </div>
+                  <AvailabilitySelector
+                    availabilityIndex={nextIndex}
+                    index={index}
+                    defaultStartTime={defaultStartTime}
+                    defaultEndTime={defaultEndTime}
+                    onClickAdd={onClickAdd}
+                    onClickRemove={onClickRemove}
+                  />
                 )}
               </div>
             );

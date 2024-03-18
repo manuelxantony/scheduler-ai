@@ -23,6 +23,23 @@ export const defaultEndTime: TimeOptions = {
   value: endTime.toDate().valueOf(),
 };
 
+const dayStart = dayjs().utc().set('hour', 0).set('minute', 0).set('second', 0);
+const dayEnd = dayjs()
+  .utc()
+  .set('hour', 23)
+  .set('minute', 59)
+  .set('second', 59);
+
+export const dayStartTime: TimeOptions = {
+  label: dayjs(dayStart).utc().format('h:mma'),
+  value: endTime.toDate().valueOf(),
+};
+
+export const dayEndTime: TimeOptions = {
+  label: dayjs(dayEnd).utc().format('h:mma'),
+  value: endTime.toDate().valueOf(),
+};
+
 export const generateTimeOptions = () => {
   const options: TimeOptions[] = [];
   const end = dayjs().utc().endOf('day');

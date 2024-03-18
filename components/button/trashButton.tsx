@@ -2,14 +2,13 @@ import React from 'react';
 import { useState, JSX } from 'react';
 import { TrashBinOutline } from 'react-ionicons';
 
-type Props = {
+type props = {
   onClick?: React.MouseEventHandler;
   tipText?: string;
 };
 
-const TrashButton = ({ onClick, tipText }: Props): JSX.Element => {
+const TrashButton = ({ onClick, tipText }: props): JSX.Element => {
   const [isHovering, setIsHovering] = useState(false);
-  console.log(isHovering);
   return (
     <div className="group relative">
       {tipText && (

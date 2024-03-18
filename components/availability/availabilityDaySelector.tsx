@@ -19,7 +19,11 @@ const AvailabilityDaySelector = () => {
         return (
           <div key={field.id}>
             <div>
-              <AvailabilityTimeSelector nestIndex={index} day={field.day} />
+              <AvailabilityTimeSelector
+                nextIndex={index}
+                day={field.day}
+                name={`availability[${index}].timeRanges`}
+              />
             </div>
           </div>
         );

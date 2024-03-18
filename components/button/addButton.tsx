@@ -2,12 +2,12 @@ import React from 'react';
 import { useState, JSX } from 'react';
 import { AddOutline } from 'react-ionicons';
 
-type Props = {
+type props = {
   onClick?: React.MouseEventHandler;
   tipText?: string;
 };
 
-const AddButton = ({ onClick, tipText }: Props): JSX.Element => {
+const AddButton = ({ onClick, tipText }: props): JSX.Element => {
   const [isHovering, setIsHovering] = useState(false);
   return (
     <div className="group relative">
