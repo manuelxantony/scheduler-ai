@@ -20,11 +20,15 @@ const AvailabilityForm = () => {
       <FormProvider {...methods}>
         <form onSubmit={onSubmit}>
           <h1 className="font-bold text-xl">Availability Selector</h1>
-          <AvailabilityDaySelector />
-          <input
+          <div className="mt-10">
+            <AvailabilityDaySelector />
+          </div>
+          <button
             type="submit"
-            className="bg-blue-200 text-sm h-10 w-14 font-bold"
-          />
+            className="bg-black text-white text-sm h-10 w-16 p-2 font-medium rounded-md"
+          >
+            Save
+          </button>
         </form>
       </FormProvider>
       <div className="mt-8" />
