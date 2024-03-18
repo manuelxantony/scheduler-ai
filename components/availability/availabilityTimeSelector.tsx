@@ -11,6 +11,7 @@ import { Availability, TimeOptions } from '@/app/lib/definitions';
 import { defaultStartTime, defaultEndTime } from '@/app/lib/day';
 import AvailabilitySelector from './avilabilitySelector';
 import dayjs from 'dayjs';
+import ToggleButton from '../button/toggleButton';
 
 const AvailabilityTimeSelector = ({
   nextIndex: nextIndex,
@@ -21,7 +22,7 @@ const AvailabilityTimeSelector = ({
   day: string;
   name: string;
 }) => {
-  const [isChecked, setIsChecked] = useState(true);
+  const [isSelected, setIsSelected] = useState(true);
   const [isFirstTimeChanged, setIsFirstTimeChanged] = useState(false);
   const { control, getValues } = useFormContext<Availability>();
   const { fields, remove, append } = useFieldArray<Availability>({
@@ -32,7 +33,7 @@ const AvailabilityTimeSelector = ({
 
   useEffect(() => {
     if (isFirstTimeChanged) {
-      if (isChecked) {
+      if (isSelected) {
         append({
           startTime: defaultStartTime,
           endTime: defaultEndTime,
@@ -41,7 +42,7 @@ const AvailabilityTimeSelector = ({
         remove();
       }
     }
-  }, [isChecked]);
+  }, [isSelected]);
 
   const onClickAdd = () => {
     const endRanges = getValues(`${name}.${fields.length - 1}`);
@@ -85,8 +86,8 @@ const AvailabilityTimeSelector = ({
 
   return (
     <div className="mb-2 flex flex-row">
-      <div className="w-[123px] mt-2">
-        <label className="text-sm">
+      <div className="w-[135px] flex flex-row items-start mt-3 gap-3">
+        {/* <label className="text-sm">
           <input
             className="mr-3"
             type="checkbox"
@@ -97,14 +98,16 @@ const AvailabilityTimeSelector = ({
             }}
           />
           {day}
-        </label>
+        </label> */}
+        <ToggleButton onSelect={setIsSelected} isSelected />
+        <span className="text-sm">{day}</span>
       </div>
-      <div className="flex flex-row justify-start items-center min-h-[46px]">
+      <div className="flex flex-row justify-start items-center min-h-[49px]">
         <div>
           {fields.map((field, index) => {
             return (
               <div key={field.id} className="my-1">
-                {isChecked && (
+                {isSelected && (
                   <AvailabilitySelector
                     availabilityIndex={nextIndex}
                     index={index}
