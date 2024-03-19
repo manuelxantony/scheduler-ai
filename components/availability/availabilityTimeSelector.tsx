@@ -52,7 +52,11 @@ const AvailabilityTimeSelector = ({
     // @ts-ignore
     const startRanges = getValues(`${name}.0`);
 
-    generateSlotRanges(startRanges as TimeRanges, endRanges as TimeRanges);
+    const [start, end] = generateSlotRanges(
+      startRanges as TimeRanges,
+      endRanges as TimeRanges
+    );
+    appendDateRanges(start, end);
   };
 
   const generateSlotRanges = (
@@ -72,27 +76,27 @@ const AvailabilityTimeSelector = ({
         .value
     ).utc();
 
-    let nextEndT: dayjs.Dayjs = endTime;
+    let nextEndTime: dayjs.Dayjs = endTime;
 
     if (endTime.hour() == 23) {
       switch (endTime.minute()) {
         case 45:
-          nextEndT = dayjs(endTime).add(14, 'minutes').add(59, 'seconds');
+          nextEndTime = dayjs(endTime).add(14, 'minutes').add(59, 'seconds');
           break;
         case 30:
-          nextEndT = dayjs(endTime).add(29, 'minutes').add(59, 'seconds');
+          nextEndTime = dayjs(endTime).add(29, 'minutes').add(59, 'seconds');
           break;
         case 15:
-          nextEndT = dayjs(endTime).add(44, 'minutes').add(59, 'seconds');
+          nextEndTime = dayjs(endTime).add(44, 'minutes').add(59, 'seconds');
           break;
         default:
-          nextEndT = dayjs(endTime).add(59, 'minutes').add(59, 'seconds');
+          nextEndTime = dayjs(endTime).add(59, 'minutes').add(59, 'seconds');
           break;
       }
     } else if (endTime.hour() < 23) {
-      nextEndT = dayjs(endTime).add(1, 'hour');
+      nextEndTime = dayjs(endTime).add(1, 'hour');
     }
-    appendDateRanges(endTime, nextEndT);
+    return [endTime, nextEndTime];
   };
 
   const appendDateRanges = (start: dayjs.Dayjs, end: dayjs.Dayjs) => {
