@@ -6,8 +6,8 @@ export type Availability = {
 };
 
 export type TimeRanges = {
-  startTime: Date;
-  endTime: Date;
+  startTime: TimeOptions;
+  endTime: TimeOptions;
 };
 
 export type TimeOptions = {
