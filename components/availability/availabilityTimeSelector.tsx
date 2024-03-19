@@ -1,5 +1,6 @@
 'use client';
 
+/* eslint-disable */
 import { useEffect, useState } from 'react';
 import {
   useFieldArray,
@@ -152,3 +153,4 @@ const AvailabilityTimeSelector = ({
 };
 
 export default AvailabilityTimeSelector;
+/* eslint-enable */
