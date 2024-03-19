@@ -7,11 +7,11 @@ import {
   FieldArrayWithId,
 } from 'react-hook-form';
 
-import { Availability, TimeOptions } from '@/app/lib/definitions';
+import { Availability, TimeOptions, TimeRanges } from '@/app/lib/definitions';
 import { defaultStartTime, defaultEndTime } from '@/app/lib/day';
 import AvailabilitySelector from './avilabilitySelector';
 import dayjs from 'dayjs';
-import ToggleButton from '../button/toggleButton';
+import ToggleSwitch from '@/components/button/toggleSwitch';
 
 const AvailabilityTimeSelector = ({
   nextIndex: nextIndex,
@@ -22,6 +22,8 @@ const AvailabilityTimeSelector = ({
   day: string;
   name: string;
 }) => {
+  const [startTIme, setStartTime] = useState<TimeOptions>(defaultStartTime);
+  const [endTIme, setEndTime] = useState<TimeOptions>(defaultEndTime);
   const [isSelected, setIsSelected] = useState(true);
   const [isFirstTimeChanged, setIsFirstTimeChanged] = useState(false);
   const { control, getValues } = useFormContext<Availability>();
@@ -32,7 +34,9 @@ const AvailabilityTimeSelector = ({
   });
 
   useEffect(() => {
-    if (isFirstTimeChanged) {
+    if (!isFirstTimeChanged) {
+      setIsFirstTimeChanged(true);
+    } else {
       if (isSelected) {
         append({
           startTime: defaultStartTime,
@@ -45,61 +49,79 @@ const AvailabilityTimeSelector = ({
   }, [isSelected]);
 
   const onClickAdd = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const endRanges = getValues(`${name}.${fields.length - 1}`);
     const startRanges = getValues(`${name}.0`);
 
-    // generateSlotRanges(startRanges, endRanges);
-    append({
-      startTime: defaultStartTime,
-      endTime: defaultEndTime,
-    });
+    generateSlotRanges(startRanges as TimeRanges, endRanges as TimeRanges);
   };
 
-  // will implement in future
-  // this will used for appending and prepending times from the time ranges selected
-  // type is FieldArrayWithId for startRanges and endRanges
-  const generateSlotRanges = (startRanges: any, endRanges: any) => {
-    // check if
-    // // startRanges.startTime == start of day and
-    // // endRanges.endTIme == end of the day
-    // then
-    // // dont append anything also amy be add a message that slots are full
-    // next
-    // check if
-    // not endRanges.end is not end of day
-    // then
-    // // append start as endRanges.start = startRanges.end
-    // // and end as endRangs.end + 1 hour if endRangs.end + 1 hxour is in same day else append eod
-    // const val = (startRanges as unknown as TimeRanges).startTime;
-    // console.log(val);
-    // const timezoneStartRange = dayjs((startRanges as TimeRanges).start).utc(); // as unknown
-    // console.log(timezoneStartRange, '-=--=-=-=-==-=343434==-=-=][][][]');
-    // const timeEndRange = dayjs((endRanges as TimeRanges).end)
-    //   .utc()
-    //   .format('h:mma'); // as unknown
-    // console.log(timeEndRange);
+  const generateSlotRanges = (
+    startRanges: TimeRanges,
+    endRanges: TimeRanges
+  ) => {
+    const startTime = dayjs(
+      (
+        (startRanges as unknown as TimeRanges)
+          .startTime as unknown as TimeOptions
+      ).value
+    ).utc();
+
+    // endTIme Will be the next start ; if same day
+    const endTime = dayjs(
+      ((endRanges as unknown as TimeRanges).endTime as unknown as TimeOptions)
+        .value
+    ).utc();
+
+    let nextEndT: dayjs.Dayjs = endTime;
+
+    if (endTime.hour() == 23) {
+      switch (endTime.minute()) {
+        case 45:
+          nextEndT = dayjs(endTime).add(14, 'minutes').add(59, 'seconds');
+          break;
+        case 30:
+          nextEndT = dayjs(endTime).add(29, 'minutes').add(59, 'seconds');
+          break;
+        case 15:
+          nextEndT = dayjs(endTime).add(44, 'minutes').add(59, 'seconds');
+          break;
+        default:
+          nextEndT = dayjs(endTime).add(59, 'minutes').add(59, 'seconds');
+          break;
+      }
+    } else if (endTime.hour() < 23) {
+      nextEndT = dayjs(endTime).add(1, 'hour');
+    }
+    appendDateRanges(endTime, nextEndT);
+  };
+
+  const appendDateRanges = (start: dayjs.Dayjs, end: dayjs.Dayjs) => {
+    if (start.hour() <= 23 && start.minute() <= 45) {
+      const nextStartTime: TimeOptions = {
+        label: dayjs(start).utc().format('h:mma'),
+        value: start.toDate().valueOf(),
+      };
+      const nextEndTime: TimeOptions = {
+        label: dayjs(end).utc().format('h:mma'),
+        value: end.toDate().valueOf(),
+      };
+      setStartTime(nextStartTime);
+      setEndTime(nextEndTime);
+      append({
+        startTime: nextStartTime,
+        endTime: nextEndTime,
+      });
+    }
   };
 
   const onClickRemove = (index: number) => {
     remove(index);
   };
-
   return (
     <div className="mb-2 flex flex-row">
       <div className="w-[135px] flex flex-row items-start mt-3 gap-3">
-        {/* <label className="text-sm">
-          <input
-            className="mr-3"
-            type="checkbox"
-            checked={isChecked}
-            onChange={() => {
-              setIsFirstTimeChanged(true);
-              setIsChecked(!isChecked);
-            }}
-          />
-          {day}
-        </label> */}
-        <ToggleButton onSelect={setIsSelected} isSelected />
+        <ToggleSwitch onSelect={setIsSelected} isSelected />
         <span className="text-sm">{day}</span>
       </div>
       <div className="flex flex-row justify-start items-center min-h-[49px]">
@@ -111,8 +133,8 @@ const AvailabilityTimeSelector = ({
                   <AvailabilitySelector
                     availabilityIndex={nextIndex}
                     index={index}
-                    defaultStartTime={defaultStartTime}
-                    defaultEndTime={defaultEndTime}
+                    defaultStartTime={startTIme}
+                    defaultEndTime={endTIme}
                     onClickAdd={onClickAdd}
                     onClickRemove={onClickRemove}
                   />

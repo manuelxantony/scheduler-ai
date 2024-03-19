@@ -4,17 +4,18 @@ import classNames from 'classnames';
 import { useState } from 'react';
 
 type props = {
-  isSelected?: boolean;
+  isSelected: boolean;
   onSelect: (isSelected: boolean) => void;
 };
 
-const ToggleButton = ({ onSelect, isSelected }: props) => {
-  const [isOn, setIsOn] = useState(isSelected);
+const ToggleSwitch = ({ onSelect, isSelected }: props) => {
+  const [isOn, setIsOn] = useState<boolean>(isSelected);
   return (
     <div
       onClick={() => {
-        setIsOn(!isOn);
-        onSelect(!isOn);
+        const isOnInverted = !isOn;
+        setIsOn(isOnInverted);
+        onSelect(isOnInverted);
       }}
       className={classNames(
         'flex w-[35px] h-5 bg-gray-200 p-[2px] rounded-full transition-all duration-500',
@@ -35,4 +36,4 @@ const ToggleButton = ({ onSelect, isSelected }: props) => {
   );
 };
 
-export default ToggleButton;
+export default ToggleSwitch;

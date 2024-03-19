@@ -19,12 +19,20 @@ const AvailabilitySelector = ({
   index,
   onClickAdd,
   onClickRemove,
+  defaultStartTime,
+  defaultEndTime,
 }: props) => {
   return (
     <div className="flex flex-row justify-start items-center gap-5">
       <Controller
         name={`availability[${availabilityIndex}].timeRanges[${index}]`}
-        render={({ field }) => <TimeRangeSelector {...field} />}
+        render={({ field }) => (
+          <TimeRangeSelector
+            {...field}
+            defaultStartTime={defaultStartTime}
+            defaultEndTime={defaultEndTime}
+          />
+        )}
       />
       {index == 0 ? (
         <AddButton onClick={() => onClickAdd()} tipText="Add time slotes" />

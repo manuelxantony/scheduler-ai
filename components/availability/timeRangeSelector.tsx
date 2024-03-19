@@ -6,14 +6,23 @@ import { ControllerRenderProps } from 'react-hook-form';
 
 import { TimeOptions } from '@/app/lib/definitions';
 
-import {
-  generateTimeOptions,
-  defaultStartTime,
-  defaultEndTime,
-} from '@/app/lib/day';
+import { generateTimeOptions } from '@/app/lib/day';
+import dayjs from 'dayjs';
+
+type props = {
+  value?: ControllerRenderProps;
+  onChange?: ControllerRenderProps;
+  defaultStartTime: TimeOptions;
+  defaultEndTime: TimeOptions;
+};
 
 // consider using useMemo for generateTimeOptions -> in case of performance issue
-const TimeRangeSelector = ({ value, onChange }: ControllerRenderProps) => {
+const TimeRangeSelector = ({
+  value,
+  onChange,
+  defaultStartTime,
+  defaultEndTime,
+}: props) => {
   const [selectedOptionStart, setSelectedOptionStart] = useState<TimeOptions>({
     ...defaultStartTime,
   });
@@ -41,7 +50,9 @@ const TimeRangeSelector = ({ value, onChange }: ControllerRenderProps) => {
           // should this be in a useEffect
           // also consider using useMemo
           const filteredOptions = options.filter((option) => {
-            return option.value < selectedOptionEnd.value;
+            const time = dayjs(option.value);
+            const selectedTime = dayjs(selectedOptionEnd.value);
+            return time.isBefore(selectedTime);
           });
           setStartOptions(filteredOptions);
         }}
@@ -54,7 +65,7 @@ const TimeRangeSelector = ({ value, onChange }: ControllerRenderProps) => {
       <span className="text-sm">-</span>
       {/* end time */}
       <Select
-        className="text-sm w-[80px] "
+        className="text-sm w-[80px]"
         defaultValue={selectedOptionEnd}
         onChange={(option) => {
           if (option) {
@@ -67,7 +78,9 @@ const TimeRangeSelector = ({ value, onChange }: ControllerRenderProps) => {
           // also consider using useMemo
           setEndOptions(
             options.filter((option) => {
-              return option.value > selectedOptionStart.value;
+              const time = dayjs(option.value);
+              const selectedTime = dayjs(selectedOptionStart.value);
+              return time.isAfter(selectedTime);
             })
           );
         }}
