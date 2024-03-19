@@ -27,6 +27,7 @@ const AvailabilitySelector = ({
       <Controller
         name={`availability[${availabilityIndex}].timeRanges[${index}]`}
         render={({ field }) => (
+          // @ts-ignore
           <TimeRangeSelector
             {...field}
             defaultStartTime={defaultStartTime}

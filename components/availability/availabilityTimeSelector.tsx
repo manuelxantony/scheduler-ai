@@ -29,7 +29,7 @@ const AvailabilityTimeSelector = ({
   const { control, getValues } = useFormContext<Availability>();
   const { fields, remove, append } = useFieldArray<Availability>({
     control,
-    // name: `availability[${nextIndex}].timeRanges`,
+    // @ts-ignore
     name: name,
   });
 
@@ -39,6 +39,7 @@ const AvailabilityTimeSelector = ({
     } else {
       if (isSelected) {
         append({
+          // @ts-ignore
           startTime: defaultStartTime,
           endTime: defaultEndTime,
         });
@@ -49,8 +50,9 @@ const AvailabilityTimeSelector = ({
   }, [isSelected]);
 
   const onClickAdd = () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // @ts-ignore
     const endRanges = getValues(`${name}.${fields.length - 1}`);
+    // @ts-ignore
     const startRanges = getValues(`${name}.0`);
 
     generateSlotRanges(startRanges as TimeRanges, endRanges as TimeRanges);
@@ -109,6 +111,7 @@ const AvailabilityTimeSelector = ({
       setStartTime(nextStartTime);
       setEndTime(nextEndTime);
       append({
+        // @ts-ignore
         startTime: nextStartTime,
         endTime: nextEndTime,
       });

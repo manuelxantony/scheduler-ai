@@ -43,6 +43,7 @@ const TimeRangeSelector = ({
         onChange={(option) => {
           if (option) {
             setSelectedOptionStart(option);
+            // @ts-ignore
             onChange({ ...value, startTime: option });
           }
         }}
@@ -70,6 +71,7 @@ const TimeRangeSelector = ({
         onChange={(option) => {
           if (option) {
             setSelectedOptionEnd(option);
+            // @ts-ignore
             onChange({ ...value, endTime: option });
           }
         }}

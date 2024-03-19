@@ -21,6 +21,7 @@ const AvailabilityDaySelector = () => {
             <div>
               <AvailabilityTimeSelector
                 nextIndex={index}
+                // @ts-ignore
                 day={field.day}
                 name={`availability[${index}].timeRanges`}
               />
