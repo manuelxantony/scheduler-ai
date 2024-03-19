@@ -2,11 +2,7 @@
 
 /* eslint-disable */
 import { useEffect, useState } from 'react';
-import {
-  useFieldArray,
-  useFormContext,
-  FieldArrayWithId,
-} from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { Availability, TimeOptions, TimeRanges } from '@/app/lib/definitions';
 import { defaultStartTime, defaultEndTime } from '@/app/lib/day';

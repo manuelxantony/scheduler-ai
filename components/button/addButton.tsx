@@ -16,7 +16,7 @@ const AddButton = ({ onClick, tipText }: props): JSX.Element => {
           <span className="text-xs text-white">{tipText}</span>
         </div>
       )}
-      <button
+      <div
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         onClick={onClick}
@@ -28,7 +28,7 @@ const AddButton = ({ onClick, tipText }: props): JSX.Element => {
             <AddOutline height="18px" width="18px" />
           )}
         </div>
-      </button>
+      </div>
     </div>
   );
 };

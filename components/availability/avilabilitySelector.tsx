@@ -10,7 +10,7 @@ type props = {
   defaultStartTime: TimeOptions;
   defaultEndTime: TimeOptions;
   index: number;
-  onClickAdd: () => void;
+  onClickAdd: React.MouseEventHandler;
   onClickRemove: (index: number) => void;
 };
 
@@ -36,7 +36,7 @@ const AvailabilitySelector = ({
         )}
       />
       {index == 0 ? (
-        <AddButton onClick={() => onClickAdd()} tipText="Add time slotes" />
+        <AddButton onClick={onClickAdd} tipText="Add time slotes" />
       ) : (
         <TrashButton onClick={() => onClickRemove(index)} tipText="Delete" />
       )}

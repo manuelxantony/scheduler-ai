@@ -13,12 +13,14 @@ const AvailabilityForm = () => {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = handleSubmit((data) => console.log(data));
+  const onSubmit = (data: Availability) => {
+    console.log(data);
+  };
 
   return (
     <>
       <FormProvider {...methods}>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={handleSubmit((data) => onSubmit(data))}>
           <h1 className="font-bold text-xl">Availability Selector</h1>
           <div className="mt-10">
             <AvailabilityDaySelector />

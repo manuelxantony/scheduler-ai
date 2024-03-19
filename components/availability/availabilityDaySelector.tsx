@@ -14,7 +14,7 @@ const AvailabilityDaySelector = () => {
   });
 
   return (
-    <div>
+    <>
       {fields.map((field, index) => {
         return (
           <div key={field.id}>
@@ -29,7 +29,7 @@ const AvailabilityDaySelector = () => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
 
